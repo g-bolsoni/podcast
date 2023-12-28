@@ -48,6 +48,7 @@ export default function Episode({episode}:EpisodeProps) {
                 </Link>
 
                 <Image
+                    alt='Podcast'
                     width= {700}
                     height={160}
                     src={episode.thumbnail}
