@@ -21,9 +21,9 @@ export function Player(){
         hasNext,
         hasPrevious,
         isLooping,
-        toggleLoop, 
+        toggleLoop,
         toggleShuffle,
-        isShuffling, 
+        isShuffling,
         clearPlayerState
         } =  usePlayer();
 
@@ -69,10 +69,10 @@ export function Player(){
                 <img src="/playing.svg" alt="Listen now"/>
                 <strong> Tocando agora </strong>
             </header>
-            
+
             { episode ? (
                 <div className={styles.currentEpisode}>
-                    <Image 
+                    <Image
                         src={episode.thumbnail}
                         height={592}
                         width={592}
@@ -88,7 +88,7 @@ export function Player(){
                     <strong> Selecione um podcast para ouvir </strong>
                 </div>
             ) }
-        
+
             <footer className={!episode ?  styles.empty : ''}>
                 <div className={styles.progress}>
                     <span>{convertDurationToTimeString(progress)}</span>
@@ -122,7 +122,7 @@ export function Player(){
                     />
                 )}
                 {/* -------------------X--------------TAG DE AUDIO INVISIBLE --------------------------X-------------------------------------------*/}
-                {/*Buttons */}                                                              
+                {/*Buttons */}
                 <div className={styles.buttons}>
                     <button type="button" disabled={!episode || episodeList.length === 1} onClick={toggleShuffle} className={isShuffling ? styles.isActive : ''}>
                         <img src="/shuffle.svg" alt="Embaralhar"/>
@@ -131,7 +131,7 @@ export function Player(){
                         <img src="/play-previous.svg" alt="Tocar anterior"/>
                     </button>
                     <button type="button" className={styles.playButton} disabled={!episode} onClick={togglePlay} >
-                            {isPlaying 
+                            {isPlaying
                                 ? <img src="/pause.svg" alt="Pausar"/>
                                 : <img src="/play.svg" alt="Tocar "/>
                             }
