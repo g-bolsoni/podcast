@@ -2,7 +2,7 @@
 
 **Podcast** é a solução descomplicada para os entusiastas de tecnologia que desejam explorar e ouvir podcasts sobre os mais recentes avanços, inovações e tendências do mundo da tecnologia. Este projeto oferece uma experiência simples e eficiente de navegação e reprodução de podcasts.
 
-![Podcast Logo](url_da_imagem_do_logo.png)
+![Podcast Logo](https://github.com/g-bolsoni/podcast/blob/master/public/logo.svg)
 
 ## Recursos Principais
 
