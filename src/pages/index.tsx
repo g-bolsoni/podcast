@@ -34,7 +34,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
-    <div className="px-16 w-full h-[calc(100vh_-_190px)] overflow-x-hidden">
+    <div className="px-4 lg:px-16 w-full h-[calc(100vh_-_190px)] overflow-x-hidden">
       <Head>
         <title>Home | Podcastr</title>
       </Head>
@@ -43,10 +43,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
       <section className={styles.latesEpisodes}>
         <h2 className='mt-12 mb-6'>Ultimos lançamentos</h2>
 
-        <ul className='list-none grid grid-cols-2 gap-6'>
+        <ul className='list-none grid grid-cols-1 lg:grid-cols-2 gap-6'>
           {latestEpisodes.map((episode, index) => {
             return (
-              <li key={episode.id} className='relative bg-white border border-1 border-gray-100 p-5 rounded-3xl flex items-center' >
+              <li key={episode.id} className='relative bg-white border border-1 border-gray-100 p-5 rounded-3xl flex items-center overflow-x-hidden' >
                 <Image
                   className='w-24 h-24 rounded-lg'
                   width={96}
@@ -60,12 +60,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <Link href={`/episode/${episode.id}`} className='block text-gray-800 font-semibold no-underline hover:underline leading-6'>
                     {episode.title}
                   </Link>
-                  <p className='text-sm mt-1 max-w-[70%] whitespace-nowrap overflow-hidden text-ellipsis'>{episode.members}</p>
+                  <p className='text-sm mt-1 max-w-[70%] whitespace-nowrap overflow-hidden text-ellipsis hidden md:block'>{episode.members}</p>
                   <span className='inline-block mt-2 text-xs'>{episode.publishedAt}</span>
                   <span className='inline-block mt-2 text-xs'>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button" className='absolute right-8 bottom-8 w-10 h-10 bg-white outline outline-2 outline-gray-100 rounded-xl transition-all duration-200 hover:brightness-95 flex justify-center items-center' onClick={() => playList(episodeList, index)}>
+                <button type="button" className='absolute bottom-4 right-8 md:bottom-8 w-10 h-10 bg-white outline outline-2 outline-gray-100 rounded-xl transition-all duration-200 hover:brightness-95 flex justify-center items-center' onClick={() => playList(episodeList, index)}>
                   <img className='w-6 h-6' src="/play-green.svg" alt="Tocar episódio" />
                 </button>
               </li>
@@ -82,8 +82,8 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             <tr>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'></th>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'>Podcast</th>
-              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'>Integrantes</th>
-              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'>Data</th>
+              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left hidden lg:block'>Integrantes</th>
+              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left hidden lg:block'>Data</th>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'>Duração</th>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'></th>
             </tr>
@@ -94,9 +94,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 <tr key={episode.id}>
                   <td className='p-3 outline outline-1 outline-gray-100 text-xs' style={{ width: 72 }}>
                     <Image
-                      width={120}
-                      height={120}
-                      className='w-full h-full rounded-lg'
+                      width={80}
+                      height={80}
+                      className='w-20 h-20 object-cover rounded-lg'
                       src={episode.thumbnail}
                       alt={episode.title}
                       objectFit="cover" />
@@ -106,8 +106,8 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                       {episode.title}
                     </Link>
                   </td>
-                  <td className='p-3 outline outline-1 outline-gray-100'>{episode.members}</td>
-                  <td className='p-3 outline outline-1 outline-gray-100' style={{ width: 125 }}>{episode.publishedAt}</td>
+                  <td className='p-3 outline outline-1 outline-gray-100 hidden lg:block'>{episode.members}</td>
+                  <td className='p-3 outline outline-1 outline-gray-100 hidden lg:block' style={{ width: 125 }}>{episode.publishedAt}</td>
                   <td className='p-3 outline outline-1 outline-gray-100'>{episode.durationAsString}</td>
                   <td className='p-3 outline outline-1 outline-gray-100'>
                     <button type="button" className='w-8 h-8 bg-white outline outline-3 outline-gray-100 rounded-lg transition-all duration-200 hover:brightness-95 flex justify-center items-center' onClick={() => playList(episodeList, index + latestEpisodes.length)}>

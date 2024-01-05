@@ -65,8 +65,8 @@ export function PlayerBottom() {
     const episode = episodeList[currentEpisodeIndex];
 
     return (
-        <footer className={`border-t-2 border-gray-100 bg-white w-full flex items-center justify-between gap-3 px-6 transition-all duration-200 mt-8 fixed bottom-0 ${episode ? "max-h-20 h-20  opacity-100 visible" : "max-h-0 h-0 opacity-0 invisible"}`} >
-            <div className="w-3/12">
+        <footer className={`border-t-2 border-gray-100 bg-white w-full flex items-center justify-between gap-3 px-2 lg:px-6 transition-all max-h-20 h-24 lg:h-20 opacity-100 visible duration-200 fixed bottom-0`} >
+            <div className={`${episode ? 'lg:w-3/12' : 'lg:w-6-12'} w-full flex itens-start my-3`}>
                 {episode ? (
                     <div className="flex items-start justify-center gap-3">
                         <Image
@@ -78,8 +78,8 @@ export function PlayerBottom() {
                             className="rounded-xl w-14 h-14"
                         />
                         <div className="flex flex-col">
-                            <strong className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-80"> {episode.title} </strong>
-                            <span className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-80"> {episode.members} </span>
+                            <strong className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-40 md:w-60 2xl:w-80"> {episode.title} </strong>
+                            <span className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-40 md:w-60 2xl:w-80"> {episode.members} </span>
                         </div>
                     </div>
                 ) : (
@@ -89,26 +89,26 @@ export function PlayerBottom() {
                 )}
             </div>
 
-            <div className="w-7/12 inline-flex gap-3">
-                <span>{convertDurationToTimeString(progress)}</span>
-                <div className="w-full">
-                    {episode ? (
-                        <Slider
-                            max={episode.duration}
-                            value={progress}
-                            onChange={handleSeek}
-                            trackStyle={{ backgroundColor: '#04d361' }}
-                            railStyle={{ backgroundColor: '#9f75ff' }}
-                            handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
-                        />
-                    ) : (
-                        <div className="" />
-                    )}
+            {episode ? (
+                <div className="w-full lg:w-7/12 inline-flex gap-3 absolute bottom-0 left-1 lg:relative">
+                    <>
+                        <span className="hidden lg:block"> {convertDurationToTimeString(progress)}</span>
+                        <div className="w-full">
+                            <Slider
+                                max={episode.duration}
+                                value={progress}
+                                onChange={handleSeek}
+                                trackStyle={{ backgroundColor: '#04d361' }}
+                                railStyle={{ backgroundColor: '#9f75ff' }}
+                                handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
+                            />
+                        </div>
+                        <span className="hidden lg:block">{convertDurationToTimeString(episode?.duration ?? 0)}</span>
+                    </>
                 </div>
-                <span>{convertDurationToTimeString(episode?.duration ?? 0)}</span>
-            </div>
+            ) : ""}
 
-            <div className={`${!episode ? "styles.empty" : ''} bg-red w-2/12 flex items-center justify-end`}>
+            <div className={`${episode ? "w-2/12" : 'w-6/12'} flex items-center justify-end`}>
                 {/* ----------------------------------TAG DE AUDIO INVISIBLE ----------------------------------------------------------------------*/}
                 {episode && (
                     <audio
@@ -125,10 +125,10 @@ export function PlayerBottom() {
                 {/* -------------------X--------------TAG DE AUDIO INVISIBLE --------------------------X-------------------------------------------*/}
                 {/*Buttons */}
                 <div className="flex items-center gap-3">
-                    <button type="button" disabled={!episode || episodeList.length === 1} onClick={toggleShuffle} className={`bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70 ${isShuffling ? "invert-[.35] sepia saturate-200 hue-rotate-180" : ''}`}>
+                    <button type="button" disabled={!episode || episodeList.length === 1} onClick={toggleShuffle} className={`hidden lg:block bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70 ${isShuffling ? "invert-[.35] sepia saturate-200 hue-rotate-180" : ''}`}>
                         <img src="/shuffle.svg" alt="Aleatório" />
                     </button>
-                    <button type="button" disabled={!episode || !hasPrevious} onClick={playPrevious} className="bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70">
+                    <button type="button" disabled={!episode || !hasPrevious} onClick={playPrevious} className="hidden lg:block bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70">
                         <img src="/play-previous.svg" alt="Tocar anterior" />
                     </button>
                     <button type="button" className="bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70" disabled={!episode} onClick={togglePlay} >
@@ -137,10 +137,10 @@ export function PlayerBottom() {
                             : <img src="/play.svg" alt="Tocar " />
                         }
                     </button>
-                    <button type="button" disabled={!episode || !hasNext} onClick={playNext} className="bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70" >
+                    <button type="button" disabled={!episode || !hasNext} onClick={playNext} className="hidden lg:block bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70" >
                         <img src="/play-next.svg" alt="Tocar proxima " />
                     </button>
-                    <button type="button" disabled={!episode} onClick={toggleLoop} className={` bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70 ${isLooping ? "invert-[.35] sepia saturate-200 hue-rotate-180" : ''} `}>
+                    <button type="button" disabled={!episode} onClick={toggleLoop} className={`hidden lg:block bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70 ${isLooping ? "invert-[.35] sepia saturate-200 hue-rotate-180" : ''} `}>
                         <img src="/repeat.svg" alt="Repetir" />
                     </button>
                 </div>
