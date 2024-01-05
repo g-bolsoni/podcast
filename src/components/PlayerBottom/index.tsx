@@ -1,7 +1,150 @@
+"use client"
+import { useEffect, useRef, useState } from "react";
+import Image from 'next/image';
+import { usePlayer } from "../../contexts/PlayerContext";
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css'
+import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+
 export function PlayerBottom() {
-    return(
-        <section className="border-t-2 h-20 border-gray-100">
-            <span className="">Player Bottom</span>
-        </section>
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [progress, setProgress] = useState(0);
+
+    const {
+        episodeList,
+        currentEpisodeIndex,
+        isPlaying,
+        togglePlay,
+        setIsPlayingState,
+        playNext,
+        playPrevious,
+        hasNext,
+        hasPrevious,
+        isLooping,
+        toggleLoop,
+        toggleShuffle,
+        isShuffling,
+        clearPlayerState
+    } = usePlayer();
+
+    useEffect(() => {
+        if (!audioRef.current) {
+            return;
+        }
+
+        if (isPlaying) {
+            audioRef.current.play();
+        } else {
+            audioRef.current.pause();
+        }
+    }, [isPlaying]);
+
+    function setupProgressListener() {
+        audioRef.current.currentTime = 0;
+
+        audioRef.current.addEventListener('timeupdate', () => {
+            setProgress(Math.floor(audioRef.current.currentTime))
+        })
+    }
+
+    function handleSeek(amount: number) {
+        audioRef.current.currentTime = amount;
+        setProgress(amount)
+    }
+
+    function handleEpisodeEnded() {
+        {
+            hasNext ? (
+                playNext()
+            ) : (
+                clearPlayerState()
+            )
+        }
+    }
+
+    const episode = episodeList[currentEpisodeIndex];
+
+    return (
+        <footer className={`border-t-2 border-gray-100 bg-white w-full flex items-center justify-between gap-3 px-6 transition-all duration-200 mt-8 fixed bottom-0 ${episode ? "max-h-20 h-20  opacity-100 visible" : "max-h-0 h-0 opacity-0 invisible"}`} >
+            <div className="w-3/12">
+                {episode ? (
+                    <div className="flex items-start justify-center gap-3">
+                        <Image
+                            src={episode.thumbnail}
+                            height={56}
+                            width={56}
+                            objectFit="cover"
+                            alt=""
+                            className="rounded-xl w-14 h-14"
+                        />
+                        <div className="flex flex-col">
+                            <strong className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-80"> {episode.title} </strong>
+                            <span className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-80"> {episode.members} </span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="">
+                        <strong> Selecione um podcast para ouvir </strong>
+                    </div>
+                )}
+            </div>
+
+            <div className="w-7/12 inline-flex gap-3">
+                <span>{convertDurationToTimeString(progress)}</span>
+                <div className="w-full">
+                    {episode ? (
+                        <Slider
+                            max={episode.duration}
+                            value={progress}
+                            onChange={handleSeek}
+                            trackStyle={{ backgroundColor: '#04d361' }}
+                            railStyle={{ backgroundColor: '#9f75ff' }}
+                            handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
+                        />
+                    ) : (
+                        <div className="" />
+                    )}
+                </div>
+                <span>{convertDurationToTimeString(episode?.duration ?? 0)}</span>
+            </div>
+
+            <div className={`${!episode ? "styles.empty" : ''} bg-red w-2/12 flex items-center justify-end`}>
+                {/* ----------------------------------TAG DE AUDIO INVISIBLE ----------------------------------------------------------------------*/}
+                {episode && (
+                    <audio
+                        src={episode.url}
+                        ref={audioRef}
+                        autoPlay
+                        loop={isLooping}
+                        onEnded={handleEpisodeEnded}
+                        onLoadedMetadata={setupProgressListener}
+                        onPlay={() => setIsPlayingState(true)}
+                        onPause={() => setIsPlayingState(false)}
+                    />
+                )}
+                {/* -------------------X--------------TAG DE AUDIO INVISIBLE --------------------------X-------------------------------------------*/}
+                {/*Buttons */}
+                <div className="flex items-center gap-3">
+                    <button type="button" disabled={!episode || episodeList.length === 1} onClick={toggleShuffle} className={`bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70 ${isShuffling ? "invert-[.35] sepia saturate-200 hue-rotate-180" : ''}`}>
+                        <img src="/shuffle.svg" alt="Aleatório" />
+                    </button>
+                    <button type="button" disabled={!episode || !hasPrevious} onClick={playPrevious} className="bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70">
+                        <img src="/play-previous.svg" alt="Tocar anterior" />
+                    </button>
+                    <button type="button" className="bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70" disabled={!episode} onClick={togglePlay} >
+                        {isPlaying
+                            ? <img src="/pause.svg" alt="Pausar" />
+                            : <img src="/play.svg" alt="Tocar " />
+                        }
+                    </button>
+                    <button type="button" disabled={!episode || !hasNext} onClick={playNext} className="bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70" >
+                        <img src="/play-next.svg" alt="Tocar proxima " />
+                    </button>
+                    <button type="button" disabled={!episode} onClick={toggleLoop} className={` bg-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-200 hover:brightness-70 ${isLooping ? "invert-[.35] sepia saturate-200 hue-rotate-180" : ''} `}>
+                        <img src="/repeat.svg" alt="Repetir" />
+                    </button>
+                </div>
+            </div>
+        </footer >
     );
 }

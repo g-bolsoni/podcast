@@ -34,7 +34,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
-    <div className="px-16 w-full ">
+    <div className="px-16 w-full h-[calc(100vh_-_190px)] overflow-x-hidden">
       <Head>
         <title>Home | Podcastr</title>
       </Head>
@@ -77,7 +77,6 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
       {/*Lista com os episódios  */}
       <section className="pb-8">
         <h2 className='mt-12 mb-6'>Todos os episódios</h2>
-
         <table className='w-full' cellSpacing={0}>
           <thead>
             <tr>
@@ -120,12 +119,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             })}
           </tbody>
         </table>
-
       </section>
     </div>
   )
 }
-
 
 export const getStaticProps: GetStaticProps = async () => {
 

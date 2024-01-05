@@ -12,9 +12,9 @@ function MyApp({ Component, pageProps }) {
       <main className='flex flex-col'>
         {/* <div className="flex-1"> */}
         <Component {...pageProps} />
-        <PlayerBottom />
         {/* </div> */}
       </main>
+      <PlayerBottom />
     </PlayerContextProvider>
 
   )
