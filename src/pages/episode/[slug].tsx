@@ -2,7 +2,7 @@ import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { GetStaticPaths, GetStaticProps } from 'next';
-import  Head  from 'next/head';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePlayer } from '../../contexts/PlayerContext';
@@ -17,23 +17,23 @@ type Episode = {
     title: string;
     members: string;
     published_at: string;
-    thumbnail:string;
-    description:string;
+    thumbnail: string;
+    description: string;
     duration: number;
     durationAsString: string;
-    url:string;
+    url: string;
     publishedAt: string;
 }
 
 type EpisodeProps = {
-    episode:Episode;
+    episode: Episode;
 }
 
-export default function Episode({episode}:EpisodeProps) {
-    const { play } =  usePlayer();
+export default function Episode({ episode }: EpisodeProps) {
+    const { play } = usePlayer();
 
     // HTML
-    return(
+    return (
         <div className={styles.episode}>
             <Head>
                 <title>{episode.title}</title>
@@ -43,13 +43,13 @@ export default function Episode({episode}:EpisodeProps) {
             <div className={styles.thumbnailContainer}>
                 <Link href={`/`}>
                     <button type="button">
-                        <img src="/arrow-left.svg" alt="voltar"/>
+                        <img src="/arrow-left.svg" alt="voltar" />
                     </button>
                 </Link>
 
                 <Image
                     alt='Podcast'
-                    width= {700}
+                    width={700}
                     height={160}
                     src={episode.thumbnail}
                     objectFit="cover"
@@ -69,38 +69,38 @@ export default function Episode({episode}:EpisodeProps) {
 
             <div
                 className={styles.description}
-                dangerouslySetInnerHTML={{__html:episode.description}}
+                dangerouslySetInnerHTML={{ __html: episode.description }}
             />
         </div>
     );
 }
 
 // Função para deixar a tela dinamica
-export const getStaticPaths: GetStaticPaths = async () =>{
-    const {data } =  await api.get('episodes', {
+export const getStaticPaths: GetStaticPaths = async () => {
+    const { data } = await api.get('episodes', {
         params: {
-          _limit:2,
-          _sort:'published_at',
-          _order: 'desc'
+            _limit: 2,
+            _sort: 'published_at',
+            _order: 'desc'
         }
-      });
+    });
 
-      const paths = data.map(episode => {
-          return{
-              params:{
-                  slug: episode.id
-                }
-          }
-      })
-    return{
+    const paths = data.map(episode => {
+        return {
+            params: {
+                slug: episode.id
+            }
+        }
+    })
+    return {
         paths,
-        fallback:'blocking'
+        fallback: 'blocking'
     };
 }
 // Função que deixa a página estática e pega as propriedades
-export const getStaticProps: GetStaticProps = async (ctx) =>{
-    const {slug} = ctx.params;
-    const {data} = await api.get(`/episodes/${slug}`)
+export const getStaticProps: GetStaticProps = async (ctx) => {
+    const { slug } = ctx.params;
+    const { data } = await api.get(`/episodes/${slug}`)
 
     const episode = {
         id: data.id,
@@ -114,8 +114,8 @@ export const getStaticProps: GetStaticProps = async (ctx) =>{
         url: data.file.url,
     };
 
-    return{
-        props:{episode},
-        revalidate: 60*60*24 // 24horas
+    return {
+        props: { episode },
+        revalidate: 60 * 60 * 24 // 24horas
     }
 }

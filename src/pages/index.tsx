@@ -48,12 +48,11 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             return (
               <li key={episode.id} className='relative bg-white border border-1 border-gray-100 p-5 rounded-3xl flex items-center overflow-x-hidden' >
                 <Image
-                  className='w-24 h-24 rounded-lg'
+                  className='w-24 h-24 rounded-lg object-cover'
                   width={96}
                   height={96}
                   alt={episode.title}
                   src={episode.thumbnail}
-                  objectFit="cover"
                 />
 
                 <div className="flex-1 ml-4">
@@ -82,8 +81,8 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             <tr>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'></th>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'>Podcast</th>
-              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left hidden lg:block'>Integrantes</th>
-              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left hidden lg:block'>Data</th>
+              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left hidden lg:table-cell'>Integrantes</th>
+              <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left hidden lg:table-cell'>Data</th>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'>Duração</th>
               <th className='p-3 outline outline-1 outline-gray-100 text-gray-200 uppercase font-medium text-xs text-left'></th>
             </tr>
@@ -99,15 +98,15 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                       className='w-20 h-20 object-cover rounded-lg'
                       src={episode.thumbnail}
                       alt={episode.title}
-                      objectFit="cover" />
+                    />
                   </td>
                   <td className='p-3 outline outline-1 outline-gray-100'>
                     <Link className='text-gray-800 font-semibold no-underline leading-6 text-base hover:underline' href={`/episode/${episode.id}`}>
                       {episode.title}
                     </Link>
                   </td>
-                  <td className='p-3 outline outline-1 outline-gray-100 hidden lg:block'>{episode.members}</td>
-                  <td className='p-3 outline outline-1 outline-gray-100 hidden lg:block' style={{ width: 125 }}>{episode.publishedAt}</td>
+                  <td className='p-3 outline outline-1 outline-gray-100 hidden lg:table-cell'>{episode.members}</td>
+                  <td className='p-3 outline outline-1 outline-gray-100 hidden lg:table-cell' style={{ width: 125 }}>{episode.publishedAt}</td>
                   <td className='p-3 outline outline-1 outline-gray-100'>{episode.durationAsString}</td>
                   <td className='p-3 outline outline-1 outline-gray-100'>
                     <button type="button" className='w-8 h-8 bg-white outline outline-3 outline-gray-100 rounded-lg transition-all duration-200 hover:brightness-95 flex justify-center items-center' onClick={() => playList(episodeList, index + latestEpisodes.length)}>

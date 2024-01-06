@@ -73,9 +73,8 @@ export function PlayerBottom() {
                             src={episode.thumbnail}
                             height={56}
                             width={56}
-                            objectFit="cover"
                             alt=""
-                            className="rounded-xl w-14 h-14"
+                            className="rounded-xl w-14 h-14 object-cover"
                         />
                         <div className="flex flex-col">
                             <strong className="overflow-hidden text-ellipsis whitespace-nowrap inline-block w-40 md:w-60 2xl:w-80"> {episode.title} </strong>
