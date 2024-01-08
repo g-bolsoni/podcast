@@ -44,8 +44,4 @@ Se você deseja contribuir para melhorar o Podcast, siga os passos abaixo:
 
 ## Capturas de Tela
 
-![Captura de Tela 1](url_da_imagem_da_tela_1.png)
-*Legenda da imagem.*
-
-![Captura de Tela 2](url_da_imagem_da_tela_2.png)
-*Legenda da imagem.*
+<iframe width="560" height="315" src="https://github.com/g-bolsoni/podcast/blob/master/public/podcastr.mp4" frameborder="0" allowfullscreen></iframe>
